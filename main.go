@@ -4,10 +4,8 @@ import (
 	"image/png"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/joho/godotenv"
-	"googlemaps.github.io/maps"
 )
 
 func main() {
@@ -16,19 +14,27 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	c, e := maps.NewClient(maps.WithAPIKey(os.Getenv("GOOGLE_MAPS_API_KEY")))
-	if e != nil {
-		log.Fatalf("fatal error: %s", e)
-	}
+	//	client, e := maps.NewClient(maps.WithAPIKey(os.Getenv("GOOGLE_MAPS_API_KEY")))
+	//	if e != nil {
+	//		log.Fatalf("fatal error: %s", e)
+	//	}
 
 	http.HandleFunc("/route", func(w http.ResponseWriter, r *http.Request) {
-		//need to get lat, long from user
-		req := maps.StaticMapRequest{Center: "Ann+Arbor,MI", Size: "600x600", Zoom: 15}
+		/*
+			//need to get lat, long from user either from taking location data or input address/street
+			mapMaker.createReq()
+			mapMaker.getLocation()
+			i = mapMaker.getMap()
+			png.encode(w, i)
+		*/
+		//		req := maps.StaticMapRequest{Center: "Ann+Arbor,MI", Size: "600x600", Zoom: 15}
 
-		i, e := c.StaticMap(r.Context(), &req)
-		if e != nil {
-			log.Fatalf("fatal error: %s", e)
-		}
+		//		i, e := client.StaticMap(r.Context(), &req)
+		//		if e != nil {
+		//		log.Fatalf("fatal error: %s", e)
+		//	}
+		i := api.getMap()
+
 		png.Encode(w, i)
 
 		//tmpl := template.Must(template.ParseFiles("index.html"))
